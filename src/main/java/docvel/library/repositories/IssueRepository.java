@@ -4,6 +4,7 @@ import docvel.library.entities.Issue;
 import lombok.Data;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,16 +12,28 @@ import java.util.List;
 @Repository
 public class IssueRepository {
 
-    private List<Issue> issueRepository = new ArrayList<>();
+    private List<Issue> issues = new ArrayList<>();
 
-    public void createIssue(Issue issue) {
-        issueRepository.add(issue);
+    public void addNewIssue(Issue issue) {
+        issues.add(issue);
     }
 
     public Issue findById(long id) {
-        return issueRepository.stream()
+        return issues.stream()
                 .filter(issue -> issue.getId() == id)
                 .findFirst()
                 .orElse(null);
+    }
+
+    public int countingNumOfBooks(long idReader){
+        return issues.stream()
+                .filter(issue -> issue.getReaderId() == idReader)
+                .filter(issue -> issue.getDateOfReturn() == null)
+                .toList().size();
+    }
+
+    public void returnOfBook(long idIssue){
+        Issue issue = findById(idIssue);
+        issue.setDateOfReturn(LocalDate.now());
     }
 }

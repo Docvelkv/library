@@ -1,32 +1,37 @@
 package docvel.library.entities;
 
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @Data
 public class Issue {
 
     private static long genId;
 
-    @Setter(AccessLevel.NONE)
+    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     private final long id;
 
-    @Setter(AccessLevel.NONE)
     private final long readerId;
 
-    @Setter(AccessLevel.NONE)
     private final long bookId;
 
-    @Setter(AccessLevel.NONE)
-    private final LocalDateTime dateOfIssuance;
+    private final LocalDate dateOfIssuance;
 
-    public Issue(long readerId, long bookId) {
+    @Setter
+    private LocalDate dateOfReturn;
+
+    public Issue (long readerId, long bookId) {
         this.id = genId++;
         this.readerId = readerId;
         this.bookId = bookId;
-        this.dateOfIssuance = LocalDateTime.now();
+        this.dateOfIssuance = LocalDate.now();
+        this.dateOfReturn = null;
     }
+
 }

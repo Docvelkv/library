@@ -37,14 +37,13 @@ public class ReaderService {
         return null;
     }
 
-    public Reader deleteReader(ReaderRequest request) {
-        Reader reader = readers.findById(request.getId());
+    public Reader deleteReader(long id) {
+        Reader reader = readers.findById(id);
         if(reader != null){
             log.info("Удалён читатель с id {}", reader.getId());
             readers.deleteById(reader.getId());
-        }else {
-            log.info("Читатель с id {} не найден", request.getId());
         }
+        log.info("Читатель с id {} не найден", id);
         return reader;
     }
 }

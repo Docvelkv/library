@@ -30,8 +30,8 @@ public class ReaderController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Reader> deleteReaderById(@RequestBody ReaderRequest request){
-        return ResponseEntity.ok(service.deleteReader(request));
+    public ResponseEntity<Reader> deleteReaderById(@PathVariable long id){
+        return ResponseEntity.ok(service.deleteReader(id));
     }
 
     @PostMapping("newReader")

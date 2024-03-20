@@ -34,22 +34,20 @@ public class BookService {
                     newBook.getAuthor(),
                     newBook.getTitle());
             return newBook;
-        } else {
-            log.info("Не удалось найти книгу с id {}", request.getId());
         }
+        log.info("Не удалось найти книгу с id {}", request.getId());
         return null;
     }
 
-    public Book deleteBook(BookRequest request){
-        Book book = books.findById(request.getId());
+    public Book deleteBook(long id){
+        Book book = books.findById(id);
         if(book != null){
             log.info("Удалена книга: автор - {}, название - {}",
                     book.getAuthor(),
                     book.getTitle());
             books.deleteById(book.getId());
-        } else {
-            log.info("Не удалось найти книгу с id {}", request.getId());
         }
+        log.info("Не удалось найти книгу с id {}", id);
         return book;
     }
 }

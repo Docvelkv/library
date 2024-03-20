@@ -4,4 +4,7 @@ server:
 spring:
   application:
     name: library
+    maxAllowedBooks: 1
+  main:
+    banner-mode: off
 

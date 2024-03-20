@@ -4,14 +4,12 @@ import docvel.library.entities.Book;
 import docvel.library.repositories.BookRepository;
 import docvel.library.services.BookService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("book")
@@ -21,18 +19,18 @@ public class BookController {
     private final BookService service;
 
     @GetMapping
-    public List<Book> getBooks(){
-        return books.getBooks();
+    public ResponseEntity<List<Book>> getBooks(){
+        return ResponseEntity.status(HttpStatus.OK).body(books.getBooks());
     }
 
     @GetMapping("{id}")
-    public Book getBookById(@PathVariable long id){
-        return books.findById(id);
+    public ResponseEntity<Book> getBookById(@PathVariable long id){
+        return ResponseEntity.status(HttpStatus.OK).body(books.findById(id));
     }
 
     @DeleteMapping("{id}")
-    public void deleteBookById(@RequestBody BookRequest request){
-        service.deleteBook(request);
+    public ResponseEntity<Book> deleteBookById(@PathVariable long id){
+        return ResponseEntity.status(HttpStatus.OK).body(service.deleteBook(id));
     }
 
     @PostMapping("newBook")
