@@ -90,11 +90,11 @@ public class IssueService {
     }
 
     public Issue returnOfBook(IssueRequest request){
-        log.info("Читателем с id {} возвращена книга с id {}",
-                request.getReaderId(),
-                request.getBookId());
         Issue issue = issues.findById(request.getIssueId());
         issues.returnOfBook(request.getIssueId());
+        log.info("Читателем с id {} возвращена книга с id {}",
+                issue.getReaderId(),
+                issue.getBookId());
         return issue;
     }
 }
