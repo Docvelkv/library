@@ -1,7 +1,6 @@
 package docvel.library.controllers.issue;
 
 import docvel.library.entities.Issue;
-import docvel.library.repositories.IssueRepository;
 import docvel.library.services.IssueService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -18,23 +16,29 @@ import java.util.stream.Collectors;
 public class IssueController {
 
     private final IssueService service;
-    private final IssueRepository issues;
 
     @GetMapping
-    public List<Issue> showAllIssues(){
-        return issues.getIssues();
+    public ResponseEntity<List<Issue>> showAllIssues(){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(service.showAllIssues());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Issue> showIssue(@PathVariable long id){
-        return ResponseEntity.ok(issues.findById(id));
+    public ResponseEntity<Issue> showIssueById(@PathVariable long id){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(service.showIssueById(id));
     }
 
     @GetMapping("reader/{idReader}")
-    public List<Issue> showIssuesForReader(@PathVariable long idReader){
-        return issues.getIssues().stream()
-                .filter(issue -> issue.getReaderId() == idReader)
-                .collect(Collectors.toList());
+    public ResponseEntity<List<Issue>> showIssuesByReaderId(@PathVariable long idReader){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(service.showIssuesForReader(idReader));
+    }
+
+    @GetMapping("book/{idBook}")
+    public ResponseEntity<List<Issue>> showIssuesByBookId(@PathVariable long idBook){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(service.showIssuesForBook(idBook));
     }
 
     @PostMapping("new")
@@ -45,6 +49,7 @@ public class IssueController {
 
     @PutMapping("return")
     public ResponseEntity<Issue> returnOfBook(@RequestBody IssueRequest request){
-        return ResponseEntity.status(HttpStatus.OK).body(service.returnOfBook(request));
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(service.returnOfBook(request));
     }
 }

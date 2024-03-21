@@ -4,9 +4,7 @@ import lombok.Data;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 @Data
 public class Issue {

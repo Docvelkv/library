@@ -4,8 +4,11 @@ import docvel.library.controllers.reader.ReaderRequest;
 import docvel.library.entities.Reader;
 import docvel.library.repositories.ReaderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -13,6 +16,23 @@ import org.springframework.stereotype.Service;
 public class ReaderService {
 
     private final ReaderRepository readers;
+
+    @Value(value = "${spring.application.noReader}")
+    private String noReader;
+
+    public List<Reader> showAllReaders() {
+        log.info("Показаны все читатели");
+        return readers.getReaders();
+    }
+
+    public Reader showReaderById(long id) {
+        if (readers.findById(id) != null) {
+            log.info("Показан читатель с id {}", id);
+            return readers.findById(id);
+        }
+        log.info(noReader, id);
+        return null;
+    }
 
     public Reader newReader(ReaderRequest request) {
         Reader reader = new Reader(request.getName());
@@ -32,7 +52,7 @@ public class ReaderService {
                     newReader.getName());
             return newReader;
         }else{
-            log.info("Читатель с id {} не найден", request.getId());
+            log.info(noReader, request.getId());
         }
         return null;
     }
@@ -43,7 +63,7 @@ public class ReaderService {
             log.info("Удалён читатель с id {}", reader.getId());
             readers.deleteById(reader.getId());
         }
-        log.info("Читатель с id {} не найден", id);
+        log.info(noReader, id);
         return reader;
     }
 }

@@ -5,6 +5,7 @@ spring:
   application:
     name: library
     maxAllowedBooks: 1
+    noReader: "Читатель с id {} не найден"
+    noBook: "Не удалось найти книгу с id {}"
   main:
     banner-mode: off
-

@@ -5,7 +5,10 @@ import docvel.library.entities.Book;
 import docvel.library.repositories.BookRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -13,6 +16,23 @@ import org.springframework.stereotype.Service;
 public class BookService {
 
     private final BookRepository books;
+
+    @Value(value = "${spring.application.noBook}")
+    private String noBook;
+
+    public List<Book> showAllBooks(){
+        log.info("Показаны все книги");
+        return books.getBooks();
+    }
+
+    public Book showBookById(long id){
+        if(books.findById(id) != null) {
+            log.info("Показана книга с id {}", id);
+            return books.findById(id);
+        }
+        log.info(noBook, id);
+        return null;
+    }
 
     public Book newBook(BookRequest request){
         Book book = new Book(request.getAuthor(), request.getTitle());
@@ -35,7 +55,7 @@ public class BookService {
                     newBook.getTitle());
             return newBook;
         }
-        log.info("Не удалось найти книгу с id {}", request.getId());
+        log.info(noBook, request.getId());
         return null;
     }
 
@@ -47,7 +67,7 @@ public class BookService {
                     book.getTitle());
             books.deleteById(book.getId());
         }
-        log.info("Не удалось найти книгу с id {}", id);
+        log.info(noBook, id);
         return book;
     }
 }
