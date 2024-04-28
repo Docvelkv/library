@@ -77,9 +77,10 @@
 
         <dependency>
             <groupId>docvel</groupId>
-            <artifactId>timer-service</artifactId>
+            <artifactId>timer-service-starter</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
     </dependencies>
 
     <dependencyManagement>
